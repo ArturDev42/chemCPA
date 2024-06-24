@@ -1,21 +1,21 @@
-# Installation didn't work on macOS
+# Installation didn't work osx-arm64
 name: chemical_CPA
 channels:
   - conda-forge
 dependencies:
-  - python=3.7
+  - python=3.8 # python=3.7 threw error with module 'typing' 
   - adjusttext
   - matplotlib
   - numpy
   - pandas
   - scanpy
-  - scipy
+  - scipy=1.9.8 # scipy=1.10.1 didn't work
   - seaborn
   - scikit-learn
   - submitit
   - jupyter
   - jupytext
-  - pytorch::pytorch
+  - pytorch::pytorch # Works on cluster: 1.12.1 Doesn't work: 1.13.1 
   - torchmetrics
   - h5py<3.2
   - cudatoolkit=11.3
