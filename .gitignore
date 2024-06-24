@@ -154,4 +154,4 @@ scripts/*.yaml
 embeddings_dir
 
 # any .h5ad files
-datasets/**/*.h5ad
+project_folder/**/*.h5ad
