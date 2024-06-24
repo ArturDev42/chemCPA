@@ -1,3 +1,4 @@
+# Installation didn't work on macOS
 name: chemical_CPA
 channels:
   - conda-forge
