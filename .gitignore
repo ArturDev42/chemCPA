@@ -152,3 +152,6 @@ dmypy.json
 settings.json
 scripts/*.yaml  
 embeddings_dir
+
+# any .h5ad files
+datasets/**/*.h5ad

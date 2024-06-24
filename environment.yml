@@ -8,8 +8,8 @@ dependencies:
   - matplotlib
   - numpy
   - pandas
-  - scanpy
-  - scipy=1.9.8 # scipy=1.10.1 didn't work
+  - scanpy # scanpy=1.9.8, because scanpy=1.10.1 didn't work
+  - scipy 
   - seaborn
   - scikit-learn
   - submitit
