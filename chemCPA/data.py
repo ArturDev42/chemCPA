@@ -53,7 +53,21 @@ def drug_names_to_once_canon_smiles(
             [perturbation_key, smiles_key]
         ).groups.keys()
     }
-    return [name_to_smiles_map[name] for name in drug_names]
+    print(f"drug_names:{drug_names}")
+    print(f"name_to_smiles_map: {name_to_smiles_map}")
+    
+    # return [name_to_smiles_map[name] for name in drug_names]
+    
+    result = []
+    for name in drug_names:
+        try:
+            mapping = name_to_smiles_map[name]
+            result.append(mapping)
+        except:
+            print(f"Error with drug_name {name}")
+            pass
+    
+    return result
 
 
 indx = lambda a, i: a[i] if a is not None else None
@@ -79,6 +93,7 @@ class Dataset:
         split_key="split",
         use_drugs_idx=False,
     ):
+        print(f"class Dataset")
         """
         :param covariate_keys: Names of obs columns which stores covariate names (eg cell type).
         :param perturbation_key: Name of obs column which stores perturbation name (eg drug name).
@@ -107,6 +122,7 @@ class Dataset:
         self.use_drugs_idx = use_drugs_idx
 
         if perturbation_key is not None:
+            print(f"perturbation_key: {perturbation_key}")
             if dose_key is None:
                 raise ValueError(
                     f"A 'dose_key' is required when provided a 'perturbation_key'({perturbation_key})."
@@ -115,11 +131,13 @@ class Dataset:
             self.de_genes = data.uns[degs_key]
             self.drugs_names = np.array(data.obs[perturbation_key].values)
             self.dose_names = np.array(data.obs[dose_key].values)
+            print(f"self.drugs_names: {self.drugs_names}")
 
             # get unique drugs
             drugs_names_unique = set()
             for d in self.drugs_names:
                 [drugs_names_unique.add(i) for i in d.split("+")]
+            print(f"drugs_names_unique: {drugs_names_unique}")
 
             self.drugs_names_unique_sorted = np.array(sorted(drugs_names_unique))
 
@@ -129,9 +147,16 @@ class Dataset:
             self.canon_smiles_unique_sorted = drug_names_to_once_canon_smiles(
                 list(self.drugs_names_unique_sorted), data, perturbation_key, smiles_key
             )
+        
             self.max_num_perturbations = max(
                 len(name.split("+")) for name in self.drugs_names
             )
+            for name in self.drugs_names:
+                if "+" in name:
+                    print(name)
+                    print(name.split("+"))
+            print()
+            print(f"self.max_num_perturbations: {self.max_num_perturbations}")
 
             if not use_drugs_idx:
                 # prepare a OneHot encoding for each unique drug in the dataset
